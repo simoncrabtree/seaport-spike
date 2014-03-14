@@ -1,5 +1,9 @@
+var util = require('util');
 var seaport = require('seaport');
 var server = seaport.createServer()
+server.on('register', function (service) {
+    console.log('Service registered:' + util.inspect(service));
+});
 server.listen(5001);
 
 var bouncy = require('bouncy');
@@ -11,6 +15,7 @@ bouncy(function (req, bounce) {
     }[domains[0]] || '0.0.x');
 
     var ps = server.query(service);
+    console.log('service:', ps);
 
     if (ps.length === 0) {
         var res = bounce.respond();
